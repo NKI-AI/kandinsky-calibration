@@ -22,7 +22,18 @@ Set the environment variables ``DATA_TRAINVAL_ROOT`` and ``DATA_TEST_ROOT``. A s
 
     python src/train.py experiment=train_coco-person_t1000
 
-until you get sufficiently many model checkpoints to choose from. The models with a larger generalization gap (``val_loss - train_loss``) are usually less well-calibrated[<sup>1</sup>](https://arxiv.org/abs/2210.01964), and are therefore good testing grounds for the Kandinsky method. Furthermore, the validation Dice score will usually keep rising even after validation loss has hit a minimum, which is another reason that you might not want to stop training early. In the default setup, 250 epochs of training should suffice. Validation Dice and loss curves will look approximately like this:
+until you get sufficiently many model checkpoints to choose from. The models with a larger generalization gap (``val_loss - train_loss``) are usually less calibrated,[<sup>1</sup>](https://arxiv.org/abs/2210.01964) and are therefore good testing grounds for the Kandinsky method. Furthermore, the validation Dice score will usually keep rising even after validation loss has hit a minimum, which is another reason that you might not want to stop training early. In the default setup, 250 epochs of training should suffice. Validation Dice and loss curves will look approximately like this:
 
-<img src="imgs/val_dice.png" width="200px"/> <img src="imgs/val_loss.png" width="200px"/>
+<img src="imgs/val_dice.png" width="300px"/> <img src="imgs/val_loss.png" width="300px"/>
+
+You can check the (mis)calibration properties of the model checkpoints by running
+
+    python src/eval.py ckpt_path=logs/train/runs/train_coco-person_t1000/<rest of checkpoint path>
+
+and inspecting the resulting images in ``logs/eval/...``. Here we show an example of the Expected Calibration Error (ECE) plotted for each individual pixel:
+
+![](imgs/person-pixelwise_ece.png)
+
+### Calibrating
+A pixelwise or imagewise calibration is a single-stage procedure. The regionwise Kandinsky method consists of two stages, since it requires the model's non-conformity scores over the full calibration set as input.
 
