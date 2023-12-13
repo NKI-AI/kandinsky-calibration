@@ -24,5 +24,5 @@ Set the environment variables ``DATA_TRAINVAL_ROOT`` and ``DATA_TEST_ROOT``. A s
 
 until you get sufficiently many model checkpoints to choose from. The models with a larger generalization gap (``val_loss - train_loss``) are usually less well-calibrated[<sup>1</sup>](https://arxiv.org/abs/2210.01964), and are therefore good testing grounds for the Kandinsky method. Furthermore, the validation Dice score will usually keep rising even after validation loss has hit a minimum, which is another reason that you might not want to stop training early. In the default setup, 250 epochs of training should suffice. Validation Dice and loss curves will look approximately like this:
 
-![](imgs/val_dice.png) ![](imgs/val_loss.png)
+<img src="imgs/val_dice.png" width="200px"/> <img src="imgs/val_loss.png" width="200px"/>
 
