@@ -35,5 +35,13 @@ and inspecting the resulting images in ``logs/eval/...``. Here we show an exampl
 ![](imgs/person-pixelwise_ece.png)
 
 ### Calibrating
-A pixelwise or imagewise calibration is a single-stage procedure. The regionwise Kandinsky method consists of two stages, since it requires the model's non-conformity scores over the full calibration set as input.
+Calibration amounts to evaluating the trained model on a calibration set and storing the resulting non-conformity scores per pixel. These can subsequently be used for computing non-conformity *curves*, where the chosen calibration method (i.e. pixel/image/kandinsky) determines how we go from the *scores* to the *curves*.
 
+Running pixelwise or imagewise calibration is as simple as
+
+    # pixelwise
+    python src/calibrate.py experiment=cal_coco-person_t1000_c20000_pixel ckpt_path=logs/train/runs/train_coco-person_t1000/...
+    # imagewise
+    python src/calibrate.py experiment=cal_coco-person_t1000_c20000_image ckpt_path=logs/train/runs/train_coco-person_t1000/...
+
+In this example we are using 20.000 images for calibration (i.e. a very large calibration set). The calibrated checkpoint is stored in a subfolder of ``logs/calibrate/runs/cal_coco-person_t1000_c20000_<method>`` as ``cmodel.ckpt``. This checkpoint has a field ``nc_curves`` that contains the nc-curves (i.e. 100 equally spaced quantiles of the nc-scores) for every pixel in the form of a ``[100, C, H, W]`` tensor. Depending on the chosen calibration method, these curves may differ per pixel (pixelwise), be identical for every pixel (imagewise), or differ by pixel grouping (kandinsky). The upshot is that this tensor can be used for creating each pixel's prediction set at the desired confidence level (with a resolution of 1%).
