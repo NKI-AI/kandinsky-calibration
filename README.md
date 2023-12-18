@@ -1,7 +1,5 @@
 # Kandinsky calibration for image segmentation models
 
-bla
-
 ## Example usage
 
 We will train, calibrate and evaluate a model on the MS-COCO dataset, restricting attention to the "person" class.
