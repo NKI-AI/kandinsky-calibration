@@ -71,7 +71,7 @@ Calibrated models contain the field `nc_curves` and the evaluation procedure wil
 
 ## Citation
 
-If you use Kandinsky calibration in your own research, please consider citing the companion paper
+If you use Kandinsky calibration in your own research, please consider citing the companion [paper](https://arxiv.org/abs/2311.11837)
 
 ```bibtex
 @misc{kandinskycp2023,
