@@ -1,0 +1,14 @@
+_target_: src.data.coco_datamodule.CocoDataModule
+trainval_root: ${oc.env:DATA_TRAINVAL_ROOT}
+test_root: ${oc.env:DATA_TEST_ROOT}
+trainval_split: "1000"
+batch_size: 32
+dims: [320, 240] # [w, h]
+num_workers: 0
+augmentations:
+  - _target_: torchvision.transforms.RandomHorizontalFlip
+    p: 0.5
+  - _target_: torchvision.transforms.RandomAffine
+    degrees: 5
+    translate: [0.1, 0.1]
+    scale: [0.8, 1.2]

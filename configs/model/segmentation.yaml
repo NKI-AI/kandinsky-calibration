@@ -1,0 +1,21 @@
+defaults:
+  - _self_
+  - scheduler: cosine
+
+_target_: src.models.seg_module.SegLitModule
+
+optimizer:
+  _target_: torch.optim.Adam
+  _partial_: true
+  lr: 0.0001
+  weight_decay: 0
+
+net:
+  _target_: src.models.components.unet.UNet
+  in_channels: 3
+  out_channels: 2
+  channels: 128
+
+loss:
+  _target_: src.utils.loss.TopKPixelCrossEntropyLoss
+  k_frac: 0.5
