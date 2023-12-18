@@ -1,0 +1,29 @@
+# @package _global_
+
+defaults:
+  - override /data: coco.yaml
+  - override /model: segmentation.yaml
+  - override /callbacks: default.yaml
+  - override /trainer: default.yaml
+
+tags: ["coco-person"]
+
+trainer:
+  log_every_n_steps: 20
+  max_epochs: 2000
+
+data:
+  batch_size: 32
+  trainval_split: "1000"
+  num_workers: 0
+
+model:
+  net:
+    _target_: src.models.components.unet.UNet
+    channels: 128
+    in_channels: 3
+    out_channels: 2
+  scheduler:
+    _target_: torch.optim.lr_scheduler.CosineAnnealingWarmRestarts
+    _partial_: true
+    T_0: 15

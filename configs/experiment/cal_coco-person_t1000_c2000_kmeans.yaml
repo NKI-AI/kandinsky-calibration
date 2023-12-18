@@ -1,0 +1,31 @@
+# @package _global_
+
+defaults:
+  - override /data: coco.yaml
+  - override /model: segmentation.yaml
+  - override /callbacks: default_calibrate.yaml
+  - override /trainer: default.yaml
+
+tags: ["coco-person"]
+
+data:
+  batch_size: 24
+  cal_trim: 2000
+
+model:
+  net:
+    in_channels: 3
+    out_channels: 2
+
+class_idx: 1
+
+callbacks:
+  calibrate:
+    method: "kandinsky"
+    class_idx: ${class_idx}
+    cluster_finder:
+      _target_: "src.utils.pixel_clustering.kmeans.KMeansClusterFinder"
+      data:
+        curve_points: [60, 70, 80, 90]
+        class_idx: ${class_idx}
+      n_clusters: 4

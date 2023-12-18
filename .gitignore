@@ -149,7 +149,6 @@ configs/local/default.yaml
 /data/
 /logs/
 .env
-/configs/experiment
 
 # Aim logging
 .aim

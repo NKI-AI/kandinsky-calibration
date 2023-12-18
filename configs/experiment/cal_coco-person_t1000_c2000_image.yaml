@@ -1,0 +1,24 @@
+# @package _global_
+
+defaults:
+  - override /data: coco.yaml
+  - override /model: segmentation.yaml
+  - override /callbacks: default_calibrate.yaml
+  - override /trainer: default.yaml
+
+tags: ["coco-person"]
+
+data:
+  batch_size: 24
+  cal_trim: 2000
+
+model:
+  net:
+    in_channels: 3
+    out_channels: 2
+
+class_idx: 1
+
+callbacks:
+  calibrate:
+    method: "image"

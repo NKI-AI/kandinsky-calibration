@@ -1,0 +1,44 @@
+# @package _global_
+
+defaults:
+  - override /data: coco.yaml
+  - override /model: segmentation.yaml
+  - override /callbacks: default_calibrate.yaml
+  - override /trainer: default.yaml
+
+tags: ["coco-person"]
+
+data:
+  batch_size: 24
+  cal_trim: 2000
+
+model:
+  net:
+    in_channels: 3
+    out_channels: 2
+
+bounds: [[-20., 20.], [-20., 20.], [0, 150], [0, 150], [0, 300]]
+class_idx: 1
+
+callbacks:
+  calibrate:
+    method: "kandinsky"
+    class_idx: ${class_idx}
+    cluster_finder:
+      _target_: "src.utils.pixel_clustering.genetic_annuli.GeneticAnnuliClusterFinder"
+      data:
+        curve_points: [60, 70, 80, 90]
+        recreate_data: false
+        class_idx: ${class_idx}
+        batch_size: 16384
+      constrain_bounds: ${bounds}
+      diff_evolution:
+        _target_: "src.utils.pixel_clustering.genetic_optimization.diff_evolution.DifferentialEvolution"
+        _partial_: true
+        mutation_strategy: "default"
+        pop_size: 10
+        mutation_factor: 0.8
+        crossover_factor: 0.7
+        max_generations: 1000
+        tol: 5e-1
+        bounds: ${bounds}
