@@ -71,7 +71,7 @@ Calibrated models contain the field `nc_curves` and the evaluation procedure wil
 
 ## Citation
 
-If you use Kandinsky calibration in your own research, please consider citing the companion [paper](https://arxiv.org/abs/2311.11837)
+If you use Kandinsky calibration in your own research, please consider citing the companion [paper](https://arxiv.org/abs/2311.11837).
 
 ```bibtex
 @misc{kandinskycp2023,
@@ -90,3 +90,7 @@ If you use Kandinsky calibration in your own research, please consider citing th
   keywords = {Computer Science - Artificial Intelligence,Computer Science - Computer Vision and Pattern Recognition,Computer Science - Machine Learning}
 }
 ```
+
+## Acknowledgments
+
+Our codebase was built upon the [Lightning Hydra template](https://github.com/ashleve/lightning-hydra-template) by Lukasz Zalewski.
